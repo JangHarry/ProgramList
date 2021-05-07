@@ -1,0 +1,30 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "aws-sdk": "^2.888.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "glob": "^7.1.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-livereload": "^4.0.2",
+    "gulp-server-livereload": "^1.9.2",
+    "gulp-uglify": "^3.0.2",
+    "gulp-webserver": "^0.9.1",
+    "mime-types": "^2.1.30",
+    "prompt-confirm": "^2.0.4"
+  }
+}

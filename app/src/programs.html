@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>프로그램</title>
+    <script src="/js/vegemilnoid-programs-1.0.0.js"></script>
+    <link rel="stylesheet" href="//www.sbs.co.kr/css/m/programlist_min.css">
+</head>
+<body>
+   <div id="app"></div>
+</body>
+<script>
+    let app = null;
+
+    (async () => {
+        app = new ProgramsContainer('app');
+        await app.initialize();
+        await app.render();
+    })();
+</script>
+</html>
