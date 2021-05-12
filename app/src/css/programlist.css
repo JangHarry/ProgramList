@@ -1,0 +1,93 @@
+/* reset */
+body, p, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, dt, dd, table, caption, form, fieldset, legend, input, a { margin: 0; padding: 0; text-decoration: none; }
+li { list-style-type: none; }
+fieldset, img { border: 0; }
+em { font-style: normal; }
+li img, li a, dd img, img, a img { vertical-align: top; }
+legend, caption { font-size: 0; width: 0; height: 0; line-height: 0; visibility: hidden; position: absolute; }
+body, input, textarea, select, button, table { color: #000; font-family: 'Malgun Gothic','맑은 고딕',dotum,'돋움',sans-serif; }
+button,select {border:0; background:none; padding:0; margin:0; border:0; font-size:16px;}
+iframe { display: block; }
+html { min-height: 100%; overflow-x: hidden; }
+body { min-height: 100%; letter-spacing: -1px; overflow-x: hidden; font-size: 15px; -webkit-text-size-adjust: none; }
+input[type="text"] { height: 33px; border: 0; background: #f2f2f2; }
+textarea { height: 70px; border: 0; background: #f2f2f2; }
+table { border-spacing: 0; }
+table th, table td { padding: 0; }
+.ir { zoom: -10; z-index: -1; position: relative; display: inline; font-size: 1px; text-align: center; white-space: nowrap; overflow: hidden; text-indent: -99999px; color: transparent; }
+.mask { position: absolute; top: 0; left: 0; border: 1px solid #000; opacity: 0.2; filter: alpha(opacity=20); z-index: 250; }
+.hide { z-index: -1; position: absolute; top: -999999em; left: -999999em; display: inline-block; .display: none; width: 1px; height: 1px; font-size: 1px; line-height: 1px; }
+.icn_sbsmain {position:absolute; display:block; font:0/0 arial; overflow:hidden; background-repeat:no-repeat; background-color:transparent; background-image:url('/img/m/set_sbsmain.png'); background-size:320px auto;}
+
+/* 메인/섹션메인용 하단 구글번역 */
+[class^="translated"] body {top:0 !important;}
+.footer_common_translate_w {text-align:right;}
+.sbs_common_footer_w .footer_common_translate_w::after {display:none !important;}
+.footer_common_translate_w select {margin:0 0 5px !important; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block; width:150px !important; height:30px !important; border:1px solid #ddd !important; border-radius:0 !important; background-color:transparent !important; -webkit-appearance:none !important; -moz-appearance:none !important; -o-appearance:none !important; appearance:none !important; padding:0 20px 0 10px !important; letter-spacing:0 !important; font-size:16px !important; color:#555 !important; font-family:'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',Dotum,'돋움',Arial,sans-serif;}
+.footer_common_translate_w > div::after {content:''; position:absolute; top:13px; right:11px; display:block; width:0; height:0; border-style:solid; border-width:4px 3px; border-color:#555 transparent transparent transparent;}
+
+/* 프로그램 : 카테고리 */
+.program_category_w {padding-left:2px; background-color:#efefef;}
+    .program_category_list {overflow:hidden; overflow-x:auto; /* autoprefixer: off */ display:-webkit-flex; /* autoprefixer: on */ display:flex; -webkit-overflow-scrolling:touch; }
+        .program_category_inner {display:inline-block; /* autoprefixer: off */ -webkit-flex-shrink:0; /* autoprefixer: on */ flex-shrink:0; float:left; overflow:hidden;}
+        .program_category_inner.current {}
+            .program_category_cont {display:block; position:relative; padding:0 10px; height:45px; line-height:45px; color:rgba(51,51,51,.8); font-size:15px;}
+            .program_category_inner.current .program_category_cont {color:#0086ce; font-weight:bold;}
+            .program_category_inner.current .program_category_cont:after {display:block; position:absolute; margin-left:-5px; left:50%; bottom:-5px; content:''; width:10px; height:10px; background-color:#fff; transform: rotate(45deg);}
+
+/* 방영/종영 */
+.program_state_btn_w {position:relative; overflow:hidden; margin:9px 12px 0; height:30px;}
+.program_state_btn_w:after {display:block; content:''; position:absolute; left:0; bottom:0; z-index:-1; width:100%; height:1px; background-color:#eee;}
+    .program_state_btn {display:block; float:left; width:50%; height:30px; line-height:30px; font-size:15px; color:#333; text-align:center; box-sizing:border-box;}
+    .program_state_btn.current {color:#109ce8;}
+        .program_state_text {display:inline-block; padding:0 12px; position:relative; height:100%; box-sizing:border-box; }
+        .program_state_btn.current .program_state_text {border-bottom:2px solid #109ce8;}
+
+/* 프로그램 : 서브 리스트 */
+.program_sublist_w {margin-top:16px;}
+    .program_sublist_inner {text-align:center;}
+        .program_sublist_cont {display:inline-block; }
+            .program_sublist_btn {display:block; height:20px; line-height:20px; padding:0 12px; font-size:14px; color:rgba(51,51,51,.8);}
+            .program_sublist_cont.current .program_sublist_btn {color:#f46200; font-weight:bold;}
+
+/* 정렬 */
+.program_align_btn_w {margin:0 5px 0 12px;}
+.program_align_btn_w:after {display:block; content:''; clear:both;}
+    .year_select_w {float:left; position:relative; height:42px; line-height:42px; font-size:16px !important; color:#333;}
+        .icon_arrow_select {position:absolute; right:3px; top:50%; margin-top:-3px; z-index:1; width:10px; height:6px; background-position:0 0;}
+        .year_select {width:100%; height:100%; padding-right:15px; box-sizing:border-box; position:relative; z-index:2; -webkit-appearance:none; -moz-appearance:none; appearance:none; color:#333;}
+    .sorting_btn_w {float:right;}
+        .sorting_btn_cont {display:inline-block; padding:0 7px; height:42px; line-height:42px; font-size:13px; color:#888;}
+        .sorting_btn_cont.current {color:#109ce8; font-weight:bold;}
+
+
+/* 프로그램 : 리스트 */
+.program_list_w {overflow:hidden;}
+    .programlist_module_w {}
+        .programlist_module_inner {display:block; position:relative; padding-bottom:26px; width:100%; color:#333; font-size:13px;}
+            .programlist_module_title {display:block; position:absolute; left:0; bottom:0; width:100%; height:26px; line-height:26px; box-sizing:border-box; text-align:center; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; font-weight:normal;}
+                .programlist_module_image_w {position:relative; margin:0 auto; width:80%; padding-top:80%; border-radius:100%; background-color:#ddd; overflow:hidden;}
+                .programlist_module_image_w:after {display:block; content:''; position:absolute; left:0; top:0; z-index:2; box-sizing:border-box; width:100%; height:100%; border:1px solid rgba(0,0,0,.1); border-radius:100%;}
+                    .programlist_image {display:block; position:absolute; left:0; top:0; width:100%; height:100%;}
+
+/* 스타채널 */
+.program_list_inner {position:relative; top:-5px; padding:0 6px 8px; max-width:768px; margin:0 auto; overflow:hidden; text-align:left;}
+    .program_list_cont {padding:5px 6px; width:25%; float:left; box-sizing:border-box; overflow:hidden;}
+
+
+@media screen and (min-width: 768px) {
+/* 방영/종영 */
+.program_state_btn_w {margin:9px 16px 0;}
+
+/* 정렬 */
+.program_align_btn_w {margin:0 9px 0 16px;}
+
+/* 스타채널 */
+.program_list_inner {top:-7px;}
+    .program_category_w {padding-left:6px;}
+        .program_list_w {}
+            .program_list_inner {padding:0 8px 20px;}
+            .program_list_w .program_list_cont {padding:7px 8px; width:12.5%;}
+}
+
+
