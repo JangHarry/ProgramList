@@ -4,22 +4,27 @@ class ProgramsContainer extends Base {
 
     try {
       this.id = {
-        self: `${GLOBAL.ID}-${this.uuid}-container-self`
+        self: `${GLOBAL.ID}-${this.uuid}-container-self`,
+        section: `${GLOBAL.ID}-${this.uuid}-container-section`,
+        state: `${GLOBAL.ID}-${this.uuid}-container-state`,
+        program: `${GLOBAL.ID}-${this.uuid}-container-program`
       };
 
-      this.view = {
+      this.state = {
         programs: []
       };
 
-      this.bind = () => {
-        const programs = this.view.programs;
+      this.model = {
+        section: null,
+        state: null,
+        program: null
+      };
 
+      this.bind = () => {
         this.target.innerHTML = `<div id="${this.id.self}">
-          <ul>
-            ${programs.map(program => {
-              return `<li>${program.title}</li>`;
-            }).join('')}
-          </ul>
+          <div id="${this.id.section}"></div>
+          <div id="${this.id.state}"></div>
+          <div id="${this.id.program}"></div>
         </div>`;
       };
     }
@@ -30,7 +35,7 @@ class ProgramsContainer extends Base {
 
   async initialize() {
     try {
-      this.view.programs = await (async response => {
+      this.state.programs = await (async response => {
         return await response.json();
       })(await fetch('//static.apis.sbs.co.kr/curation-api/gnb/mobile/all?on=air&sort=new&year=all&_=1620367765223'));
 
@@ -46,6 +51,20 @@ class ProgramsContainer extends Base {
   async render() {
     try {
       this.bind();
+
+      this.model.section = new ProgramsSection(this.id.section);
+      await this.model.section.initialize();
+      await this.model.section.render();
+
+      this.model.state = new ProgramsState(this.id.state);
+      await this.model.state.initialize();
+      await this.model.state.render();
+
+      this.model.program = new ProgramsProggram(this.id.program);
+      await this.model.program.initialize({
+        programs: this.state.programs
+      });
+      await this.model.program.render();
 
       super.render();
 
