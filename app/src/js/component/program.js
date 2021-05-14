@@ -98,9 +98,35 @@ class ProgramsProggram extends Base {
         <div class="sorting_btn_w">
           ${filters.map(filter => {
             return `<button id="${this.id.filter.item}-${filter.id}" type="button" class="sorting_btn_cont ${filter.selected ? 'current' : ''}">${filter.title}</button>`;
-          }).join()} 
+          }).join('')} 
         </div>
       </div>`;
+
+      filters.forEach(filter => {
+        this.target.querySelector(`#${this.id.filter.item}-${filter.id}`).addEventListener('click', event => {
+          try {
+            const id = event.currentTarget.id.split('-')[10];
+
+            filters.forEach(filter => {
+              filter.selected = filter.id === id;
+            });
+
+            this.renderFilter();
+          }
+          catch(error) {
+            LOG_UTIL.log(error);
+          }
+        });
+      });
+    }
+    catch(error) {
+      LOG_UTIL.log(error);
+    }
+  }
+
+  scrolled(event) {
+    try {
+      // LOG_UTIL.log(event);
     }
     catch(error) {
       LOG_UTIL.log(error);
