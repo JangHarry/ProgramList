@@ -21,11 +21,21 @@ class ProgramsProggram extends Base {
           items: [{
             id: 'new',
             title: '최신',
-            selected: true
+            selected: true,
+            click: filter => {
+              this.view.filter.items.find(item => item.id === filter.id).selected = true;
+
+              this.renderFilter();
+            }
           }, {
             id: 'title',
             title: '체목',
-            selected: false
+            selected: false,
+            click: filter => {
+              this.view.filter.items.find(item => item.id === filter.id).selected = true;
+
+              this.renderFilter();
+            }
           }]
         },
         program: {
@@ -105,13 +115,9 @@ class ProgramsProggram extends Base {
       filters.forEach(filter => {
         this.target.querySelector(`#${this.id.filter.item}-${filter.id}`).addEventListener('click', event => {
           try {
-            const id = event.currentTarget.id.split('-')[10];
+            const selectedFilter = filters.find(filter => filter.id === event.currentTarget.id.split('-')[10]);
 
-            filters.forEach(filter => {
-              filter.selected = filter.id === id;
-            });
-
-            this.renderFilter();
+            selectedFilter.click(selectedFilter);
           }
           catch(error) {
             LOG_UTIL.log(error);

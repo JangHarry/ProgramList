@@ -11,7 +11,9 @@ class ProgramsContainer extends Base {
       };
 
       this.state = {
-        programs: []
+        programs: [],
+        section: 'all',
+        on: 'air'
       };
 
       this.model = {
@@ -37,7 +39,7 @@ class ProgramsContainer extends Base {
     try {
       this.state.programs = await (async response => {
         return await response.json();
-      })(await fetch('//static.apis.sbs.co.kr/curation-api/gnb/mobile/all?on=air&sort=new&year=all&_=1620367765223'));
+      })(await fetch(`//static.apis.sbs.co.kr/curation-api/gnb/mobile/${this.state.section}?on=${this.state.on}&sort=new&year=all`));
 
       super.initialize();
 
@@ -53,22 +55,61 @@ class ProgramsContainer extends Base {
       this.bind();
 
       this.model.section = new ProgramsSection(this.id.section);
+      this.model.section.event.clicked = async event => {
+        try {
+          this.state.section = event.id;
+
+          await this.initialize();
+          await this.renderProgram();
+        }
+        catch(error) {
+          LOG_UTIL.log(error);
+        }
+      };
       await this.model.section.initialize();
       await this.model.section.render();
 
+      await this.renderState();
+      await this.renderProgram();
+
+      super.render();
+
+      return this;
+    }
+    catch(error) {
+      LOG_UTIL.log(error);
+    }
+  }
+
+  async renderState() {
+    try {
       this.model.state = new ProgramsState(this.id.state);
+      this.model.state.event.clicked = async event => {
+        try {
+          this.state.on = event.id;
+
+          await this.initialize();
+          await this.renderProgram();
+        }
+        catch(error) {
+          LOG_UTIL.log(error);
+        }
+      };
       await this.model.state.initialize();
       await this.model.state.render();
+    }
+    catch(error) {
+      LOG_UTIL.log(error);
+    }
+  }
 
+  async renderProgram() {
+    try {
       this.model.program = new ProgramsProggram(this.id.program);
       await this.model.program.initialize({
         programs: this.state.programs
       });
       await this.model.program.render();
-
-      super.render();
-
-      return this;
     }
     catch(error) {
       LOG_UTIL.log(error);
