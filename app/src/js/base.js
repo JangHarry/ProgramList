@@ -26,7 +26,11 @@ class Base {
     this._bind = () => {};
 
     window.addEventListener("scroll", event => {
-      this.scrolled(event);
+      this.scrolled({
+        clientWidth: document.documentElement.clientWidth,
+        scrollHeight: document.documentElement.scrollHeight,
+        scrollY: window.scrollY
+      });
     });
 
     window.addEventListener('resize', event => {

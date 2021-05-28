@@ -43,8 +43,17 @@ class ProgramsProggram extends Base {
         }
       };
 
+      this.state = {
+        program: {
+          limit: 40,
+          is: {
+            loading: false
+          }
+        }
+      };
+
       this.bind = () => {
-        const programs = this.view.program.items;
+        const programs = this.view.program.items.filter(program => program.is.visible);
 
         this.target.innerHTML = `<div id="${this.id.self}">
           <div id="${this.id.filter._}"></div>
@@ -74,7 +83,13 @@ class ProgramsProggram extends Base {
 
   async initialize(command) {
     try {
-      this.view.program.items = command.programs;
+      this.view.program.items = command.programs.map((program, index) => {
+        program.is = {
+          visible: index < this.state.program.limit
+        };
+
+        return program;
+      });
 
       super.initialize();
 
@@ -130,9 +145,25 @@ class ProgramsProggram extends Base {
     }
   }
 
-  scrolled(event) {
+  async scrolled(event) {
     try {
-      // LOG_UTIL.log(event);
+      if(event.clientWidth - event.scrollY < 40) {
+        if(!this.state.program.is.loading) {
+          this.state.program.is.loading = true;
+
+          const offset = this.view.program.items.filter(program => program.is.visible).length;
+
+          this.view.program.items = this.view.program.items.map((program, index) => {
+            program.is.visible = index < offset + this.state.program.limit;
+
+            return program;
+          });
+
+          await this.render();
+
+          this.state.program.is.loading = false;
+        }
+      }
     }
     catch(error) {
       LOG_UTIL.log(error);
