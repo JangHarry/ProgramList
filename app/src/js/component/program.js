@@ -23,28 +23,37 @@ class ProgramsProggram extends Base {
             title: '최신',
             selected: true,
             click: filter => {
-              this.view.filter.items.find(item => item.id === filter.id).selected = true;
 
-              this.renderFilter();
+              this.view.filter.items.find(item => item.id === filter.id).selected = true;
+              this.view.filter.items.find(item => item.id !== filter.id).selected = false;
+
+              this.render();
+
             }
           }, {
             id: 'title',
-            title: '체목',
+            title: '제목',
             selected: false,
             click: filter => {
-              this.view.filter.items.find(item => item.id === filter.id).selected = true;
 
-              this.renderFilter();
+              this.view.filter.items.find(item => item.id === filter.id).selected = true;
+              this.view.filter.items.find(item => item.id !== filter.id).selected = false;
+
+              this.render();
+
+
             }
           }]
         },
         program: {
-          items: []
+          items: [],
+          command:[],
         }
       };
 
       this.state = {
         program: {
+          page : 1,
           limit: 40,
           is: {
             loading: false
@@ -53,27 +62,52 @@ class ProgramsProggram extends Base {
       };
 
       this.bind = () => {
-        const programs = this.view.program.items.filter(program => program.is.visible);
 
-        this.target.innerHTML = `<div id="${this.id.self}">
-          <div id="${this.id.filter._}"></div>
-          <div id="${this.id.program.self}" class="program_list_w">
-            <ul class="program_list_inner">
-              ${programs.map(program => {
-                return `<li id="${this.id.program.item}-${program.vod_id}" class="program_list_cont">
-                  <div class="programlist_module_w">
-                    <a href="${program.link}" target="_blank" class="programlist_module_inner">
-                      <strong class="programlist_module_title">${program.title}</strong>
-                      <div class="programlist_module_image_w">
-                        <img src="${program.img_url}" alt="${program.title}" class="programlist_image" width="100%">
+        const programs = this.view.program.items.slice((this.state.program.page - 1)*this.state.program.limit, this.state.program.limit*this.state.program.page);
+
+        if(this.state.program.page == 1) {
+          this.target.innerHTML = `<div id="${this.id.self}">
+            <div id="${this.id.filter._}"></div>
+            <div id="${this.id.program.self}" class="program_list_w">
+              <ul class="program_list_inner">
+                ${programs.map(program => {
+            return `<li id="${this.id.program.item}-${program.vod_id}" class="program_list_cont">
+                      <div class="programlist_module_w">
+                        <a href="${program.link}" target="_blank" class="programlist_module_inner">
+                          <strong class="programlist_module_title">${program.title}</strong>
+                          <div class="programlist_module_image_w">
+                            <img src="${program.img_url}" alt="${program.title}" class="programlist_image" width="100%">
+                          </div>
+                        </a>
                       </div>
-                    </a>
-                  </div>
-                </li>`;
-              }).join('')}
-            </ul>
-          </div>
-        </div>`;
+                    </li>`;
+          }).join('')}
+              </ul>
+            </div>
+          </div>`;
+        }
+        else {
+          this.target.innerHTML += `<div id="${this.id.self}">
+            <div id="${this.id.filter._}"></div>
+            <div id="${this.id.program.self}" class="program_list_w">
+              <ul class="program_list_inner">
+                ${programs.map(program => {
+            return `<li id="${this.id.program.item}-${program.vod_id}" class="program_list_cont">
+                    <div class="programlist_module_w">
+                      <a href="${program.link}" target="_blank" class="programlist_module_inner">
+                        <strong class="programlist_module_title">${program.title}</strong>
+                        <div class="programlist_module_image_w">
+                          <img src="${program.img_url}" alt="${program.title}" class="programlist_image" width="100%">
+                        </div>
+                      </a>
+                    </div>
+                  </li>`;
+          }).join('')}
+              </ul>
+            </div>
+          </div>`;
+        }
+
       };
     }
     catch(error) {
@@ -83,13 +117,12 @@ class ProgramsProggram extends Base {
 
   async initialize(command) {
     try {
-      this.view.program.items = command.programs.map((program, index) => {
-        program.is = {
-          visible: index < this.state.program.limit
-        };
 
-        return program;
-      });
+      this.view.program.items = command.programs;
+
+      this.view.filter.items.find(item => item.id === command.sort).selected= true;
+      this.view.filter.items.find(item => item.id !== command.sort).selected= false;
+
 
       super.initialize();
 
@@ -102,6 +135,7 @@ class ProgramsProggram extends Base {
 
   async render() {
     try {
+
       this.bind();
 
       this.renderFilter();
@@ -122,8 +156,8 @@ class ProgramsProggram extends Base {
       this.target.querySelector(`#${this.id.filter._}`).innerHTML = `<div id="${this.id.filter.self}" class="program_align_btn_w">
         <div class="sorting_btn_w">
           ${filters.map(filter => {
-            return `<button id="${this.id.filter.item}-${filter.id}" type="button" class="sorting_btn_cont ${filter.selected ? 'current' : ''}">${filter.title}</button>`;
-          }).join('')} 
+        return `<button id="${this.id.filter.item}-${filter.id}" type="button" class="sorting_btn_cont ${filter.selected ? 'current' : ''}">${filter.title}</button>`;
+      }).join('')} 
         </div>
       </div>`;
 
@@ -131,8 +165,8 @@ class ProgramsProggram extends Base {
         this.target.querySelector(`#${this.id.filter.item}-${filter.id}`).addEventListener('click', event => {
           try {
             const selectedFilter = filters.find(filter => filter.id === event.currentTarget.id.split('-')[10]);
-
-            selectedFilter.click(selectedFilter);
+            //selectedFilter.click(selectedFilter);
+            this.event.clicked(selectedFilter)
           }
           catch(error) {
             LOG_UTIL.log(error);
@@ -150,16 +184,10 @@ class ProgramsProggram extends Base {
       if(event.clientWidth - event.scrollY < 40) {
         if(!this.state.program.is.loading) {
           this.state.program.is.loading = true;
+          this.state.program.page += 1;
 
-          const offset = this.view.program.items.filter(program => program.is.visible).length;
 
-          this.view.program.items = this.view.program.items.map((program, index) => {
-            program.is.visible = index < offset + this.state.program.limit;
-
-            return program;
-          });
-
-          await this.render();
+          await this.bind();
 
           this.state.program.is.loading = false;
         }

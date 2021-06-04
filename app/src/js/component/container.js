@@ -13,7 +13,8 @@ class ProgramsContainer extends Base {
       this.state = {
         programs: [],
         section: 'all',
-        on: 'air'
+        on: 'air',
+        sort:'new'
       };
 
       this.model = {
@@ -39,7 +40,7 @@ class ProgramsContainer extends Base {
     try {
       this.state.programs = await (async response => {
         return await response.json();
-      })(await fetch(`//static.apis.sbs.co.kr/curation-api/gnb/mobile/${this.state.section}?on=${this.state.on}&sort=new&year=all`));
+      })(await fetch(`//static.apis.sbs.co.kr/curation-api/gnb/mobile/${this.state.section}?on=${this.state.on}&sort=${this.state.sort}&year=all`));
 
       super.initialize();
 
@@ -106,8 +107,23 @@ class ProgramsContainer extends Base {
   async renderProgram() {
     try {
       this.model.program = new ProgramsProggram(this.id.program);
+      this.model.program.event.clicked = async event => {
+        try {
+          this.state.sort = event.id;
+
+          await this.initialize({
+            programs: this.state.programs,
+            sort : this.state.sort
+          });
+          await this.renderProgram();
+        }
+        catch(error) {
+          LOG_UTIL.log(error);
+        }
+      };
       await this.model.program.initialize({
-        programs: this.state.programs
+        programs: this.state.programs,
+        sort : this.state.sort
       });
       await this.model.program.render();
     }

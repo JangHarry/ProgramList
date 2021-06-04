@@ -36,6 +36,7 @@ class ProgramsState extends Base {
             try {
               const selectedState = states.find(state => state.id === event.currentTarget.id.split('-')[9]);
 
+
               states.forEach(state => {
                 state.selected = state.id === selectedState.id;
               });

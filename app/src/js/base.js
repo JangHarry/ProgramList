@@ -16,10 +16,10 @@ class Base {
     this._model = {};
     this._event = {
       initialized: () => {
-        LOG_UTIL.log(`'${this.id.self}' has been initialized.`);
+        // LOG_UTIL.log(`'${this.id.self}' has been initialized.`);
       },
       rendered: () => {
-        LOG_UTIL.log(`'${this.id.self}' has been rendered.`);
+        // LOG_UTIL.log(`'${this.id.self}' has been rendered.`);
       }
     };
 
